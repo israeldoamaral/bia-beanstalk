@@ -1,0 +1,27 @@
+FROM public.ecr.aws/docker/library/node:18-slim
+
+# Upgrade npm para versão compatível com Node 18
+RUN npm install -g npm@10 --loglevel=error
+
+# Instalar curl para health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/src/app
+
+# Copiar package.json do backend
+COPY package*.json ./
+RUN npm install --loglevel=error
+
+# Copiar package.json do frontend
+COPY client/package*.json ./client/
+RUN cd client && npm install --loglevel=error
+
+# Copiar código fonte
+COPY . .
+
+# Build do frontend com Vite (API URL será interno no container)
+RUN cd client && VITE_API_URL=/api npm run build
+
+EXPOSE 8080
+
+CMD ["npm", "start"]
