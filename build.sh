@@ -6,6 +6,6 @@ docker tag bia:latest $ECR_REGISTRY/bia:$VERSAO
 docker push $ECR_REGISTRY/bia:$VERSAO
 rm .env 2> /dev/null
 ./gerar-compose.sh
-rm bia-versao-*zip 2> /dev/null 2>&1
+rm bia-versao-*.zip 2> /dev/null 2>&1
 zip -r bia-versao-$VERSAO.zip docker-compose.yml
 

@@ -1,0 +1,20 @@
+name: bia-beanstalk
+services:
+  server:
+    container_name: bia
+    environment:
+      DB_HOST: bia.cgbk82so41lk.us-east-1.rds.amazonaws.com
+      DB_PORT: "5432"
+      DB_PWD: 819vNypHGMBs0euUEGwB
+      DB_USER: postgres
+    image: 528424611297.dkr.ecr.us-east-1.amazonaws.com/bia:85b69bc
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "80"
+        protocol: tcp
+networks:
+  default:
+    name: bia-beanstalk_default
